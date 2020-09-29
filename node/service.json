@@ -1,0 +1,21 @@
+{
+  "memory": 256,
+  "ttl": 10,
+  "timeout": 2,
+  "minReplicas": 2,
+  "maxReplicas": 4,
+  "routes": {
+    "ordersb2b": {
+      "path": "/_v/ordersb2b/:order",
+      "public": true
+    },
+    "ordersDate": {
+      "path": "/_v/ordersb2b/date",
+      "public": true
+    },
+    "ordersFiles": {
+      "path": "/_v/ordersb2b/files/:order",
+      "public": true
+    }
+  }
+}

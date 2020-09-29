@@ -1,0 +1,8 @@
+{
+  "my-account-link.orders-b2b-link": {
+    "component": "OrdersB2BLink"
+  },
+  "my-account-link.orders-b2b-page": {
+    "component": "OrdersB2BPage"
+  }
+}
