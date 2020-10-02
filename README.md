@@ -16,9 +16,9 @@ https://{workspace--{accountname}.myvtex.com/admin
 
 ## In Account Settings (/admin)
 
-1 - Go to My Apps and find for "Omnichannel Order Status"
-2 - Install it.
-3 - Set informations (link endpoint, login and token) for communication with service.
+1 - Go to My Apps and find for "Omnichannel Order Status"<br />
+2 - Install it.<br />
+3 - Set informations (link endpoint, login and token) for communication with service.<br />
 
 ![image info](./docs/ref/screenshot-ominichannel.png)
 
@@ -28,7 +28,7 @@ The application will communicate with the external api based on login, token and
 
 To work properly, your api must have this following endpoints:
 
-<details><summary>POST: api/v1/pedido/pesquisa</summary>
+<details><summary>POST: api/v1/pedido/pesquisa</summary> <br />
 
 Search for orders in ERP. The site will fill only one of the objects: PorPeriodo, PorCodigo or PorNotaFiscal.
 
@@ -74,7 +74,7 @@ Response Format
 ```
 </details>
 
-<details><summary>GET: api/v1/pedido?pedidoErpId={pedidoErpId}&revendaId={revendaId}</summary>
+<details><summary>GET: api/v1/pedido?pedidoErpId={pedidoErpId}&revendaId={revendaId}</summary><br />
 
 Gets the details of an order directly from the ERP.
 
@@ -160,29 +160,7 @@ Response Format
 ```
 </details>
 
-<details><summary>POST: api/v1/pedido/arquivo</summary>
-
-[OPTIONAL] Send a file sent by the user to the ERP
-
-Request Format
-
-```
-{
-  "url": string,
-  "pedidoErpId": string,
-  "tipoDeArquivo": string
-}
-
-```
-
-Response Format
-
-```
-
-```
-</details>
-
-<details><summary>GET: api/v1/arquivospedido?pedidoErpId={pedidoErpId}&revendaId={revendaId}</summary>
+<details><summary>GET: api/v1/arquivospedido?pedidoErpId={pedidoErpId}&revendaId={revendaId}</summary> <br />
 
 [OPTIONAL] From the order id in Erp, the file references must be returned.
 
