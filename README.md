@@ -7,7 +7,7 @@ Allows customers to view order status on standardized external APIs
 Install this app in your workspace
 
 ```js
-vtex install vtex.ominichannel-order-status@0.0.1
+vtex install vtex.omnichannel-order-status@0.0.1
 ```
 
 Access your url store in admin area:

@@ -1,8 +1,8 @@
 {
   "vendor": "vtex",
   "name": "omnichannel-order-status",
-  "version": "0.0.1",
-  "title": "B2B Orders",
+  "version": "0.0.2-beta.0",
+  "title": "Omnichannel Order Status",
   "description": "Allows customers to view order status on standardized external APIs",
   "defaultLocale": "pt-BR",
   "builders": {
