@@ -1,31 +1,31 @@
-# Omnichannel order status
+# B2B Orders
 
 In a B2B business model, your company and your partners may need to share selected information, such as order statuses. 
 
-For these scenarios, we recommend that you install and set up the *Omnichannel Order Status* app in your VTEX account. 
+For these scenarios, we recommend that you install and set up the *B2B Orders* app in your VTEX account. 
 
 By communicating with your *Enterprise resource planning (ERP)*, this app allows your business' customers to securely check their order status at any time they want.
  
-For more information on how to set up the *Omnichannel Order Status* app and its related external APIs to the ERP, check the following section.
+For more information on how to set up the *B2B Orders* app and its related external APIs to the ERP, check the following section.
 
 ## Step by step
 
-1. Using the terminal and the [Toolbelt](https://vtex.io/docs/recipes/development/vtex-io-cli-installation-and-command-reference/), [install](https://vtex.io/docs/recipes/store/installing-an-app/) the *Omnichannel Order Status* app in the desired workspace by running `vtex install vtex.omnichannel-order-status`.
+1. Using the terminal and the [Toolbelt](https://vtex.io/docs/recipes/development/vtex-io-cli-installation-and-command-reference/), [install](https://vtex.io/docs/recipes/store/installing-an-app/) the *B2B Orders* app in the desired workspace by running `vtex install vtex.omnichannel-order-status`.
 
 2. In your browser, access your account's admin as in `https://{workspace}--{accountname}.myvtex.com/admin`.
 
 >⚠️ *Remember to replace the values between the curly brackets according to your scenario.*
 
-3. Under `Account Settings`, go to `Apps > My apps`. Look for the *Omnichannel Order Status* app and install it.
+3. Under `Account Settings`, go to `Apps > My apps`. Look for the *B2B Orders* app and install it.
 4. Click on `Settings` to set up the necessary information for communicating with the desired service. That is:
 
 - **Link endpoint** - the endpoint address of the desired service.
 - **Login** - credentials for accessing the service.
 - **Token** - authentication token for accessing the service.
 
-![omnichannel-order](https://user-images.githubusercontent.com/60782333/95888818-f8a7e280-0d57-11eb-89bf-a04725fb4852.png)
+![omnichannel-order](https://user-images.githubusercontent.com/60782333/99416894-17aa0f00-28d8-11eb-8414-28ded9fc2d1e.png)
 
->⚠️ *So that the *Omnichannel Order Status* app can properly work, your ERP API must have different endpoints for each of the following scenarios: order search, order details, order documents. To learn more about it, check the [ERP API requirements](#erp-api-requirements) section.*
+>⚠️ *So that the *B2B Orders* app can properly work, your ERP API must have different endpoints for each of the following scenarios: order search, order details, order documents. To learn more about it, check the [ERP API requirements](#erp-api-requirements) section.*
 
 5. Save your changes.
 
@@ -35,7 +35,7 @@ Once your changes are duly saved, a new option, namely **Orders B2B**, will be a
 
 ## ERP API requirements
 
-To facilitate its implementation, the *Omnichannel Order Status* app comes with a well-defined pattern for communicating with the ERP API.
+To facilitate its implementation, the *B2B Orders* app comes with a well-defined pattern for communicating with the ERP API.
 
 This pattern implies that your company's ERP API has different endpoints for each of the following scenarios: 
 
@@ -43,7 +43,7 @@ This pattern implies that your company's ERP API has different endpoints for eac
 - Order details.
 - [OPTIONAL] Order documents.
 
->⚠️ *For specific needs, not satisfied by the scenarios presented, you might need to customize the Omnichannel Order Status app.*
+>⚠️ *For specific needs, not satisfied by the scenarios presented, you might need to customize the B2B Orders.*
 
 In the following, we present the possible requests and response format for each one of the ERP API's related endpoints.
 
