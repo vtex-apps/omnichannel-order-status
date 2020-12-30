@@ -9,7 +9,7 @@ import {
 
 import { orderValidationMiddleware } from './middlewares/oderValidation'
 
-const TIMEOUT_MS = 800
+const TIMEOUT_MS = 10000
 
 const clients: ClientsConfig<Clients> = {
   implementation: Clients,

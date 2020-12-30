@@ -14,7 +14,7 @@ export async function ordersMiddeware(ctx: Context, next: () => Promise<any>) {
   const { data: organizationId }: any = await statusClient.getOrganization(
     hostSite,
     email
-  )
+    )
 
   const {
     headers,
@@ -24,7 +24,7 @@ export async function ordersMiddeware(ctx: Context, next: () => Promise<any>) {
     order,
     settings.endpoint,
     settings.token,
-    organizationId[0].organizationId
+    organizationId[0].companyId
   )
 
   ctx.status = responseStatus
@@ -51,7 +51,7 @@ export async function ordersFilesMiddeware(
   const { data: organizationId }: any = await statusClient.getOrganization(
     hostSite,
     email
-  )
+    )
 
   const {
     headers,
@@ -61,7 +61,7 @@ export async function ordersFilesMiddeware(
     order,
     settings.endpoint,
     settings.token,
-    organizationId[0].organizationId
+    organizationId[0].companyId
   )
 
   ctx.status = responseStatus
@@ -87,14 +87,14 @@ export async function ordersPeriodMiddeware(
   const { data: organizationId }: any = await statusClient.getOrganization(
     hostSite,
     email
-  )
+    )
 
   let body = await json(ctx.req)
 
   body = {
     ...body,
-    revendaId: organizationId[0].organizationId,
-  }
+    revendaId: organizationId[0].companyId,
+    }
 
   const {
     headers,
