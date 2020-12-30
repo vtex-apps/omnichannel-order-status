@@ -1,8 +1,8 @@
 {
   "vendor": "vtex",
   "name": "omnichannel-order-status",
-  "version": "0.0.2",
-  "title": "Omnichannel Order Status",
+  "version": "0.0.3",
+  "title": "B2B Order",
   "description": "Allows customers to view order status on standardized external APIs",
   "defaultLocale": "pt-BR",
   "builders": {
@@ -41,7 +41,7 @@
     {
       "name": "outbound-access",
       "attrs": {
-        "host": "apidev.atma-it.com",
+        "host": "apivtex.vtex.com.br",
         "path": "*"
       }
     },

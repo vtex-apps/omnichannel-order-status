@@ -15,7 +15,7 @@ export default class Orders extends ExternalClient {
     email: String
   ): Promise<IOResponse<string>> {
     return this.http.getRaw(
-      `https://${hostSite}/api/dataentities/CL/search?_fields=organizationId&_where=email=${email}`,
+      `http://${hostSite}/api/dataentities/CL/search?_fields=companyId&_where=email=${email}`,
       {
         metric: 'get-email',
       }
@@ -69,7 +69,7 @@ export default class Orders extends ExternalClient {
     endpoint: String,
     token: String
   ): Promise<IOResponse<string>> {
-    return this.http.postRaw(endpoint + '/api/v1/pedido/pesquisa', body, {
+          return this.http.postRaw(endpoint + '/api/v1/pedido/pesquisa', body, {
       metric: 'get-order',
       headers: {
         Authorization: 'Bearer ' + token + '',

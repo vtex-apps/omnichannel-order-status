@@ -103,7 +103,6 @@ const OrdersB2B: FunctionComponent<Props> = ({}) => {
 
     try {
       const data = {
-        revendaId: 0,
         porPeriodo: {
           dataInicial: parseDateIncial,
           dataFim: parseDateFinal,

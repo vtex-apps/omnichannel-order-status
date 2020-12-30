@@ -8,16 +8,39 @@ By communicating with your *Enterprise resource planning (ERP)*, this app allows
  
 For more information on how to set up the *B2B Orders* app and its related external APIs to the ERP, check the following section.
 
-## Step by step
+### Prerequisites - Changes to existing **CL** table
+We need to add one field to existing **CL** master data table. 
+```
+companyId: Integer
+```
 
-1. Using the terminal and the [Toolbelt](https://vtex.io/docs/recipes/development/vtex-io-cli-installation-and-command-reference/), [install](https://vtex.io/docs/recipes/store/installing-an-app/) the *B2B Orders* app in the desired workspace by running `vtex install vtex.omnichannel-order-status`.
+This field is an identifier that will be automatically passed when requesting the APIs below. Thus, the endpoints will be able to know which client is involved in the request
 
-2. In your browser, access your account's admin as in `https://{workspace}--{accountname}.myvtex.com/admin`.
+> **companyId** field should check following checkboxes 
+> **Is nullable**, 
+> **Make readable without credential**, 
+> **Allow editing without credential**, 
+> **Allow filter without credential**, 
+> **Is searchable**, 
+> **Is filterable**, 
+
+Dont forget to `save` and `reindex` `CL` table once you add all the fields. 
+
+## Install and setup
+
+1. Clone this app using you prefered git app
+
+2. Change the value of `policies` -> `attrs` -> `host` setting the hostname of your API. Eg: apivtex.vtex.com.br
+
+3. Using a testing workspace, kink the app using `vtex link` [https://developers.vtex.com/vtex-developer-docs/docs/vtex-io-documentation-linking-an-app]
+
+4. In your browser, access your account's admin as in `https://{workspace}--{accountname}.myvtex.com/admin`.
 
 >⚠️ *Remember to replace the values between the curly brackets according to your scenario.*
 
-3. Under `Account Settings`, go to `Apps > My apps`. Look for the *B2B Orders* app and install it.
-4. Click on `Settings` to set up the necessary information for communicating with the desired service. That is:
+5. Under `Account Settings`, go to `Apps > My apps`. Look for the *B2B Orders*.
+
+6. Click on `Settings` to set up the necessary information for communicating with the desired service. That is:
 
 - **Link endpoint** - the endpoint address of the desired service.
 - **Login** - credentials for accessing the service.
@@ -27,7 +50,7 @@ For more information on how to set up the *B2B Orders* app and its related exter
 
 >⚠️ *So that the *B2B Orders* app can properly work, your ERP API must have different endpoints for each of the following scenarios: order search, order details, order documents. To learn more about it, check the [ERP API requirements](#erp-api-requirements) section.*
 
-5. Save your changes.
+7. Save your changes.
 
 Once your changes are duly saved, a new option, namely **Orders B2B**, will be available in your client's menu, as in the following image:
 
@@ -112,7 +135,7 @@ By exposing the `GET` `api/v1/pedido?pedidoErpId={pedidoErpId}&revendaId={revend
 ```
 {
   "pedidoErpId": string,
-  "status": 0,
+  "status": integer,
   "itens": [
     {
       "partNumber": string,
@@ -123,7 +146,7 @@ By exposing the `GET` `api/v1/pedido?pedidoErpId={pedidoErpId}&revendaId={revend
       "comissao": decimal number
     }
   ],
-  "revendaId": 2,
+  "revendaId": integer,
   "clienteFinalId": string,
   "clienteFinalCnpj": string,
   "clienteFinalCpf": string,
