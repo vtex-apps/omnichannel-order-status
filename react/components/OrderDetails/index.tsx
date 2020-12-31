@@ -130,13 +130,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                       <tbody className="lh-copy">
                         <tr>
                           <td className="pv3 pr3 bb tl b--black-10">
-                            {dataPedidos.corpname}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">E-mail</td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.corpemail}
+                            {dataPedidos.billingAddressCorpname}
                           </td>
                         </tr>
                         <tr>
@@ -144,15 +138,15 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                             {<FormattedMessage id="table.address" />}:
                           </td>
                           <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.formattedAddres}
+                            {dataPedidos.billingAddressFormattedAddres}
                           </td>
                         </tr>
                         <tr>
                           <td className="pv3 pr3 bb tl b--black-10">
-                            {dataPedidos.cityState}
+                            {dataPedidos.billingAddressCity}
                           </td>
                           <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.cityState}
+                            {dataPedidos.billingAddressState}
                           </td>
                         </tr>
                         <tr>
@@ -160,15 +154,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                             {<FormattedMessage id="table.zipCode" />}
                           </td>
                           <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.zipcode}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className=" pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.methodPayment" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.methodPayment}
+                            {dataPedidos.billingAddresszipcode}
                           </td>
                         </tr>
                       </tbody>
@@ -186,13 +172,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                       <tbody className="lh-copy">
                         <tr>
                           <td className="pv3 pr3 bb tl b--black-10">
-                            {dataPedidos.corpname}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">E-mail</td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.corpemail}
+                            {dataPedidos.deliveryAddressCorpname}
                           </td>
                         </tr>
                         <tr>
@@ -200,15 +180,15 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                             {<FormattedMessage id="table.address" />}:
                           </td>
                           <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.formattedAddres}
+                            {dataPedidos.deliveryAddressFormattedAddres}
                           </td>
                         </tr>
                         <tr>
                           <td className="pv3 pr3 bb tl b--black-10">
-                            {dataPedidos.cityState}
+                            {dataPedidos.deliveryAddressCity}
                           </td>
                           <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.cityState}
+                            {dataPedidos.deliveryAddressState}
                           </td>
                         </tr>
                         <tr>
@@ -216,15 +196,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                             {<FormattedMessage id="table.zipCode" />}
                           </td>
                           <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.zipcode}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className=" pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.methodPayment" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.methodPayment}
+                            {dataPedidos.deliveryAddresszipcode}
                           </td>
                         </tr>
                       </tbody>
@@ -244,7 +216,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                             {<FormattedMessage id="table.methodPayment" />}
                           </td>
                           <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.methodPayment}
+                            {dataPedidos.paymentMethod}
                           </td>
                         </tr>
                         <tr>
@@ -252,7 +224,23 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                             {<FormattedMessage id="table.optionPayment" />}
                           </td>
                           <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.methodPaymentInfo}
+                            {dataPedidos.paymentOptions}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="pv3 pr3 bb tl b--black-10">
+                            {<FormattedMessage id="table.deliveryMethod" />}
+                          </td>
+                          <td className="pv3 pr3 bb tr b--black-10">
+                            {dataPedidos.deliveryMethod}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="pv3 pr3 bb tl b--black-10">
+                            {<FormattedMessage id="table.carrierLink" />}
+                          </td>
+                          <td className="pv3 pr3 bb tr b--black-10">
+                            {dataPedidos.LinkTransportadora}
                           </td>
                         </tr>
                       </tbody>

@@ -33,10 +33,12 @@
   "table.price": "Price",
   "table.quantity": "Quantity",
   "table.freight": "Freight",
-  "title.serviceTax": "Services & Tax Area",
+  "title.serviceTax": "Services & Taxes",
   "table.address": "Address",
   "table.zipCode": "Zip Code",
-  "table.methodPayment": "Form Payment",
-  "table.optionPayment": "Option Payment",
-  "label.required": "Fill this field"
+  "table.methodPayment": "Payment Method",
+  "table.optionPayment": "Payment information",
+  "label.required": "Fill this field",
+  "table.deliveryMethod": "Delivery Method",
+  "table.carrierLink": "Carrier Link"
 }
