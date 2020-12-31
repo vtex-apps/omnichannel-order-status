@@ -240,7 +240,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                             {<FormattedMessage id="table.carrierLink" />}
                           </td>
                           <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.LinkTransportadora}
+                            {dataPedidos.linkTransportadora}
                           </td>
                         </tr>
                       </tbody>

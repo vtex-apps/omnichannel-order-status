@@ -51,7 +51,7 @@ export default class Orders extends ExternalClient {
   ): Promise<IOResponse<string>> {
     return this.http.getRaw(
       endpoint +
-        '/api/v1/arquivospedido?pedidoErpId=' +
+        '/api/v1/ArquivosPedido/?pedidoErpId=' +
         order +
         '&revendaId=' +
         revendaId,
