@@ -37,6 +37,8 @@
   "table.address": "Endereço",
   "table.zipCode": "Cep",
   "table.methodPayment": "Forma de pagamento",
-  "table.optionPayment": "Opções de pagamento",
-  "label.required": "Informe um valor"
+  "table.optionPayment": "Opção de pagamento",
+  "label.required": "Informe um valor",
+  "table.deliveryMethod": "Método de entrega",
+  "table.carrierLink": "Link da Transportadora"
 }
