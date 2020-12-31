@@ -30,7 +30,7 @@ Dont forget to `save` and `reindex` `CL` table once you add all the fields.
 
 1. Clone this app using you prefered git app
 
-2. Change the value of `policies` -> `attrs` -> `host` setting the hostname of your API. Eg: apivtex.vtex.com.br
+2. At the manifest.json file, change the value of `policies` -> `attrs` -> `host` setting the hostname of your API. Eg: apivtex.vtex.com.br
 
 3. Using a testing workspace, kink the app using `vtex link` [https://developers.vtex.com/vtex-developer-docs/docs/vtex-io-documentation-linking-an-app]
 
@@ -55,6 +55,8 @@ Dont forget to `save` and `reindex` `CL` table once you add all the fields.
 Once your changes are duly saved, a new option, namely **Orders B2B**, will be available in your client's menu, as in the following image:
 
 ![client-view](https://user-images.githubusercontent.com/60782333/95912705-83e5a000-0d79-11eb-866c-f6f10832a36f.png)
+
+>⚠️ After you finished you testing API, don't forget to publish and install at your master workspace. Instructions here: https://vtex.io/docs/recipes/development/publishing-an-app
 
 ## ERP API requirements
 
