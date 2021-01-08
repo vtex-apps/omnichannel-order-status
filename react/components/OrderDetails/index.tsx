@@ -5,14 +5,14 @@ import OrderTracking from './orderTracking'
 
 import { FormattedMessage } from 'react-intl'
 import { FormattedCurrency } from 'vtex.format-currency'
-
 import { format } from 'date-fns'
-
-import { Link, Table } from 'vtex.styleguide'
+import { Link, Table, Alert } from 'vtex.styleguide'
+import './style.global.css'
 
 const OrderDatails: FunctionComponent<Props> = ({ match }) => {
   const [dataPedidos, setDataPedido] = useState<any | undefined>([])
   const [dataArquivos, setDataArquivos] = useState<any | undefined>([])
+  const [isError, setIsError] = useState<boolean | false>(false)
 
   const idPedido = match.params.order.toString()
 
@@ -23,6 +23,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
       const results = await ApiB2B.get('ordersb2b/' + idPedido)
       setDataPedido(results.data)
     } catch (err) {
+      setIsError(true)
       console.warn('Pedido', err)
     }
   }
@@ -32,6 +33,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
       const resultado = await ApiB2B.get('ordersb2b/files/' + idPedido)
       setDataArquivos(resultado.data)
     } catch (err) {
+      setIsError(true)
       console.warn('Arquivos do pedido', err)
     }
   }
@@ -64,9 +66,22 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
   }
 
   return (
-    <ContentWrapper titleId="titleOrderDetails" namespace="custom-page">
+    <ContentWrapper
+      titleId="titleOrderDetails"
+      namespace="custom-page"
+      backButton={{
+        title: "return",
+        titleId: "titleOrderDetails",
+        path: "/b2b-order"
+      }
+    }>
       {() => (
         <div>
+          {isError && (
+            <Alert type="error" onClose={() => console.log('Closed!')}>
+              <FormattedMessage id="message.error" />
+            </Alert>
+          )}
           <div className="vtex_orders-detail c-on-base">
             <table className="f6 w-100 mw8">
               <tbody className="lh-copy">
@@ -116,139 +131,146 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
               <OrderTracking status={dataPedidos.status} />
             </div>
 
-            <div className="flex justify-center con__address">
-              <div className="mw9 center ph3-ns">
-                <div className="cf ph2-ns">
-                  <div className="fl w-100 w-third-ns pa2">
-                    <p>
-                      <strong className="c-on-base">
-                        {<FormattedMessage id="order.billingAddress" />}
-                      </strong>
-                    </p>
+            {isError ? (
+              <div className="flex items-center h-100 c-muted-2 pa7-l">
+                <div className="w-80 w-60-l center tc">
+                  <span className="t-heading-4 mt0">Nothing to show.</span>
+                </div>
+              </div>
+            ) : (
+              <div className="flex justify-center con__address">
+                <div className="mw9 center ph3-ns">
+                  <div className="cf ph2-ns">
+                    <div className="fl w-100 w-third-ns pa2">
+                      <p>
+                        <strong className="c-on-base">
+                          {<FormattedMessage id="order.billingAddress" />}
+                        </strong>
+                      </p>
+                      <table className="f6 w-100 mw8 ba b--black-10">
+                        <tbody className="lh-copy">
+                          <tr>
+                            <td className="pv3 pr3 bb tl b--black-10">
+                              {dataPedidos.billingAddressCorpname}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="pv3 pr3 bb tl b--black-10">
+                              {<FormattedMessage id="table.address" />}:
+                            </td>
+                            <td className="pv3 pr3 bb tr b--black-10">
+                              {dataPedidos.billingAddressFormattedAddres}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="pv3 pr3 bb tl b--black-10">
+                              {dataPedidos.billingAddressCity}
+                            </td>
+                            <td className="pv3 pr3 bb tr b--black-10">
+                              {dataPedidos.billingAddressState}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className=" pr3 bb tl b--black-10">
+                              {<FormattedMessage id="table.zipCode" />}
+                            </td>
+                            <td className="pv3 pr3 bb tr b--black-10">
+                              {dataPedidos.billingAddresszipcode}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
 
-                    <table className="f6 w-100 mw8 ba b--black-10">
-                      <tbody className="lh-copy">
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {dataPedidos.billingAddressCorpname}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.address" />}:
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.billingAddressFormattedAddres}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {dataPedidos.billingAddressCity}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.billingAddressState}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className=" pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.zipCode" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.billingAddresszipcode}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                    <div className="fl w-100 w-third-ns pa2">
+                      <p>
+                        <strong className="c-on-base">
+                          {<FormattedMessage id="order.deliveryAddress" />}
+                        </strong>
+                      </p>
 
-                  <div className="fl w-100 w-third-ns pa2">
-                    <p>
-                      <strong className="c-on-base">
-                        {<FormattedMessage id="order.deliveryAddress" />}
-                      </strong>
-                    </p>
+                      <table className="f6 w-100 mw8 ba b--black-10">
+                        <tbody className="lh-copy">
+                          <tr>
+                            <td className="pv3 pr3 bb tl b--black-10">
+                              {dataPedidos.deliveryAddressCorpname}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="pv3 pr3 bb tl b--black-10">
+                              {<FormattedMessage id="table.address" />}:
+                            </td>
+                            <td className="pv3 pr3 bb tr b--black-10">
+                              {dataPedidos.deliveryAddressFormattedAddres}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="pv3 pr3 bb tl b--black-10">
+                              {dataPedidos.deliveryAddressCity}
+                            </td>
+                            <td className="pv3 pr3 bb tr b--black-10">
+                              {dataPedidos.deliveryAddressState}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className=" pr3 bb tl b--black-10">
+                              {<FormattedMessage id="table.zipCode" />}
+                            </td>
+                            <td className="pv3 pr3 bb tr b--black-10">
+                              {dataPedidos.deliveryAddresszipcode}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="fl w-100 w-third-ns pa2">
+                      <p>
+                        <strong className="c-on-base">
+                          {<FormattedMessage id="order.otherInformations" />}
+                        </strong>
+                      </p>
 
-                    <table className="f6 w-100 mw8 ba b--black-10">
-                      <tbody className="lh-copy">
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {dataPedidos.deliveryAddressCorpname}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.address" />}:
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.deliveryAddressFormattedAddres}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {dataPedidos.deliveryAddressCity}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.deliveryAddressState}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className=" pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.zipCode" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.deliveryAddresszipcode}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="fl w-100 w-third-ns pa2">
-                    <p>
-                      <strong className="c-on-base">
-                        {<FormattedMessage id="order.otherInformations" />}
-                      </strong>
-                    </p>
-
-                    <table className="f6 w-100 mw8 ba b--black-10">
-                      <tbody className="lh-copy">
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.methodPayment" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.paymentMethod}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.optionPayment" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.paymentOptions}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.deliveryMethod" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.deliveryMethod}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.carrierLink" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.linkTransportadora}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                      <table className="f6 w-100 mw8 ba b--black-10">
+                        <tbody className="lh-copy">
+                          <tr>
+                            <td className="pv3 pr3 bb tl b--black-10">
+                              {<FormattedMessage id="table.methodPayment" />}
+                            </td>
+                            <td className="pv3 pr3 bb tr b--black-10">
+                              {dataPedidos.paymentMethod}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="pv3 pr3 bb tl b--black-10">
+                              {<FormattedMessage id="table.optionPayment" />}
+                            </td>
+                            <td className="pv3 pr3 bb tr b--black-10">
+                              {dataPedidos.paymentOptions}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="pv3 pr3 bb tl b--black-10">
+                              {<FormattedMessage id="table.deliveryMethod" />}
+                            </td>
+                            <td className="pv3 pr3 bb tr b--black-10">
+                              {dataPedidos.deliveryMethod}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="pv3 pr3 bb tl b--black-10">
+                              {<FormattedMessage id="table.carrierLink" />}
+                            </td>
+                            <td className="pv3 pr3 bb tr b--black-10">
+                              {dataPedidos.linkTransportadora}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
 
             <div className="t-heading-4 mt6 mb5">
               {<FormattedMessage id="order.purchaseData" />}
@@ -263,6 +285,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
               />
             </div>
 
+            {!isError && (
             <div className="order_-summary tr">
               <div className="w-100 mw6 dib">
                 <table className="f6 w-100 ba b--black-10">
@@ -302,11 +325,43 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                 </table>
               </div>
             </div>
+            )}
+
+            <div className="t-heading-4 mt6 mb5">
+              {<FormattedMessage id="title.trackOrder" />}
+            </div>
+
+            <div>
+              <div className="progress-bar" role="progressbar">
+                <span className="progress" style={{"width": "20%"}}></span>
+                <div className="milestone milestone--reached">
+                  <label className="c-on-base">liberação comercial</label>
+                </div>
+                <div className="milestone">
+                  <label className="c-on-base">separação</label>
+                </div>
+                <div className="milestone">
+                  <label className="c-on-base">enviado</label>
+                </div>
+                <div className="milestone">
+                  <label className="c-on-base">entregue</label>
+                </div>
+              </div>
+            </div>
+
+
 
             <div className="t-heading-4 mt6 mb5">
               {<FormattedMessage id="title.serviceTax" />}
             </div>
 
+            {isError ? (
+              <div className="flex items-center h-100 c-muted-2 pa7-l">
+                <div className="w-80 w-60-l center tc">
+                  <span className="t-heading-4 mt0">Nothing to show.</span>
+                </div>
+              </div>
+            ) : (
             <ul className="pa0 ma0">
               {dataArquivos.itens?.map((item: any, index: number) => (
                 <li key={index} className="pa3 dib">
@@ -316,6 +371,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                 </li>
               ))}
             </ul>
+            )}
           </div>
         </div>
       )}
