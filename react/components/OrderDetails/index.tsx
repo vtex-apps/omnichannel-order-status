@@ -65,7 +65,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
     },
   }
 
-  return (
+   return (
     <ContentWrapper
       titleId="titleOrderDetails"
       namespace="custom-page"
@@ -127,7 +127,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
               {<FormattedMessage id="order.tracking" />}
             </div>
 
-            <div className="mw9 center tc ph3-ns bg-black-10 ic__tracking">
+            <div>
               <OrderTracking status={dataPedidos.status} />
             </div>
 
@@ -326,30 +326,6 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
               </div>
             </div>
             )}
-
-            <div className="t-heading-4 mt6 mb5">
-              {<FormattedMessage id="title.trackOrder" />}
-            </div>
-
-            <div>
-              <div className="progress-bar" role="progressbar">
-                <span className="progress" style={{"width": "20%"}}></span>
-                <div className="milestone milestone--reached">
-                  <label className="c-on-base">liberação comercial</label>
-                </div>
-                <div className="milestone">
-                  <label className="c-on-base">separação</label>
-                </div>
-                <div className="milestone">
-                  <label className="c-on-base">enviado</label>
-                </div>
-                <div className="milestone">
-                  <label className="c-on-base">entregue</label>
-                </div>
-              </div>
-            </div>
-
-
 
             <div className="t-heading-4 mt6 mb5">
               {<FormattedMessage id="title.serviceTax" />}

@@ -5,7 +5,7 @@
   margin-right: auto;
   max-width: 800px;
   height: 10px;
-  background-color: #68b0ab;
+  background-color: #cdd0d0;
   border-radius: 99em;
   display: flex;
   justify-content: space-evenly;
@@ -31,7 +31,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #68b0ab;
+  background-color: #cdd0d0;
   color: #fff;
 }
 .milestone--reached {
