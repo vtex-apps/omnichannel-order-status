@@ -53,11 +53,6 @@ export async function ordersFilesMiddeware(
     email
     )
 
-    console.log("CHEGOU AQUI!")
-    console.log(order)
-    console.log(ctx)
-
-
   const {
     headers,
     data,

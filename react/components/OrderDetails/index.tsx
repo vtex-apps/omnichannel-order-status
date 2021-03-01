@@ -3,12 +3,20 @@ import { ContentWrapper } from 'vtex.my-account-commons'
 import ApiB2B from '../Services/ApiB2b'
 import OrderTracking from './orderTracking'
 
-import { FormattedMessage, useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { FormattedCurrency } from 'vtex.format-currency'
 import { format } from 'date-fns'
 import { Link, Alert, EXPERIMENTAL_Table } from 'vtex.styleguide'
  import  useTableMeasures  from '@vtex/styleguide/lib/EXPERIMENTAL_Table/hooks/useTableMeasures'
 import './style.global.css'
+
+
+import {
+  tableSchemaProducts,
+tableSchemaBillingAddress,
+tableSchemaDeliveryAddress,
+tableSchemaOtherInformations
+} from "./tableStructure"
 
 const OrderDatails: FunctionComponent<Props> = ({ match }) => {
   const [dataOrder, setDataOrder] = useState<any | undefined>([])
@@ -17,7 +25,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
   const [isLoading, setisLoading] = useState<boolean | false>(false)
   const [isErrorDataOrder, setIsErrorDataOrder] = useState<boolean | false>(false)
   const [isErrorDataFile, setIsErrorDataFile] = useState<boolean | false>(false)
-  const intl = useIntl()
+
   const idOrder = match.params.order.toString()
 
   const itensOthersInformations = [
@@ -46,92 +54,6 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
       billingAddressState: dataOrder.billingAddressState,
       billingAddresszipcode: dataOrder.billingAddresszipcode
     }
-  ]
-
-  const tableSchemaProducts = [
-    {
-      id: 'descricaoDoProduto',
-      title: intl.formatMessage({ id: 'table.name'})
-    },
-    {
-      id: 'valorUnitario',
-      title: intl.formatMessage({ id: 'table.price'}),
-      cellRenderer: ({ data }: any) => {
-        return <FormattedCurrency value={data} />
-      }
-    },
-    {
-      id: 'quantidade',
-      title: intl.formatMessage({ id: 'table.quantity'})
-    },
-    {
-      id: 'valorTotal',
-      title: 'Total',
-      cellRenderer: ({ data }: any) => {
-        return <FormattedCurrency value={data} />
-      },
-    }
-  ]
-
-  const tableSchemaBillingAddress = [
-    {
-      id: 'deliveryAddressCorpname',
-      title: intl.formatMessage({ id: 'order.deliveryAddress'})
-    },
-    {
-      id: 'billingAddressFormattedAddres',
-      title: intl.formatMessage({ id: 'table.address'})
-    },
-    {
-      id: 'billingAddressCity',
-      title: intl.formatMessage({ id: 'table.city'})
-    },
-    {
-      id: 'billingAddressState',
-      title: intl.formatMessage({ id: 'table.state'})
-    },
-    {
-      id: 'billingAddresszipcode',
-      title: intl.formatMessage({ id: 'table.zipCode'})
-    }
-  ]
-
-  const tableSchemaDeliveryAddress = [
-    {
-      id: 'deliveryAddressCorpname',
-      title: intl.formatMessage({ id: 'order.deliveryAddress'})
-    },
-    {
-      id: 'billingAddressCity',
-      title: intl.formatMessage({ id: 'table.city'})
-    },
-    {
-      id: 'billingAddressState',
-      title: intl.formatMessage({ id: 'table.state'})
-    },
-    {
-      id: 'billingAddresszipcode',
-      title: intl.formatMessage({ id: 'table.zipCode'})
-    },
-  ]
-
-  const tableSchemaOtherInformations = [
-    {
-      id: 'paymentMethod',
-      title: intl.formatMessage({ id: 'table.methodPayment'})
-    },
-    {
-      id: 'paymentOptions',
-      title: intl.formatMessage({ id: 'table.optionPayment'})
-    },
-    {
-      id: 'deliveryMethod',
-      title: intl.formatMessage({ id: 'table.deliveryMethod'})
-    },
-    {
-      id: 'linkTransportadora',
-      title: intl.formatMessage({ id: 'table.carrierLink'})
-    },
   ]
 
   const measuresProducts = useTableMeasures({ size: dataOrder.itens?.length })
