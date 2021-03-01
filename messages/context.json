@@ -35,6 +35,8 @@
   "table.quantity": "Quantity",
   "table.freight": "Freight",
   "title.serviceTax": "Services & Tax Area",
+  "table.city": "City",
+  "table.state": "State",
   "table.address": "Address",
   "table.zipCode": "Zip Code",
   "table.methodPayment": "Form Payment",

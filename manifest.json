@@ -41,7 +41,7 @@
     {
       "name": "outbound-access",
       "attrs": {
-        "host": "apivtex.vtex.com.br",
+        "host": "apivtex.digimess.com.br",
         "path": "*"
       }
     },
