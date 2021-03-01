@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@vtex/css-handles": "^1.0.0",
-    "@vtex/styleguide": "^9.118.0",
+    "@vtex/styleguide": "^9.135.4",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "ramda": "^0.26.1",
@@ -34,7 +34,7 @@
     "typescript": "3.9.7",
     "vtex.css-handles": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.css-handles@0.4.2/public/@types/vtex.css-handles",
     "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.94.0/public/@types/vtex.render-runtime",
-    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.8/public/@types/vtex.styleguide"
+    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.135.4/public/@types/vtex.styleguide"
   },
   "version": "0.1.3"
 }

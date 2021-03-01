@@ -3,11 +3,11 @@ import { ContentWrapper } from 'vtex.my-account-commons'
 import ApiB2B from '../Services/ApiB2b'
 import OrderTracking from './orderTracking'
 
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { FormattedCurrency } from 'vtex.format-currency'
 import { format } from 'date-fns'
-import { Link, Alert, Table } from 'vtex.styleguide'
-// import EXPERIMENTAL_useTableMeasures from '@vtex/styleguide/lib/EXPERIMENTAL_Table/hooks/useTableMeasures'
+import { Link, Alert, EXPERIMENTAL_Table } from 'vtex.styleguide'
+ import  useTableMeasures  from '@vtex/styleguide/lib/EXPERIMENTAL_Table/hooks/useTableMeasures'
 import './style.global.css'
 
 const OrderDatails: FunctionComponent<Props> = ({ match }) => {
@@ -17,17 +17,10 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
   const [isLoading, setisLoading] = useState<boolean | false>(false)
   const [isErrorDataOrder, setIsErrorDataOrder] = useState<boolean | false>(false)
   const [isErrorDataFile, setIsErrorDataFile] = useState<boolean | false>(false)
-
+  const intl = useIntl()
   const idPedido = match.params.order.toString()
 
-  const itens = dataPedidos.itens
-
-  console.log(dataPedidos)
-  console.log(itens)
-
-  // const measures = EXPERIMENTAL_useTableMeasures({ size: itens.length })
-
-  const itensOtherInformations = [
+  const itensOthersInformations = [
     {
     paymentMethod: dataPedidos.paymentMethod,
     paymentOptions: dataPedidos.paymentOptions,
@@ -55,7 +48,96 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
     }
   ]
 
-  console.log(itensOtherInformations)
+  const tableSchemaProducts = [
+    {
+      id: 'descricaoDoProduto',
+      title: intl.formatMessage({ id: 'table.name'})
+    },
+    {
+      id: 'valorUnitario',
+      title: intl.formatMessage({ id: 'table.price'}),
+      cellRenderer: ({ data }: any) => {
+        return <FormattedCurrency value={data} />
+      }
+    },
+    {
+      id: 'quantidade',
+      title: intl.formatMessage({ id: 'table.quantity'})
+    },
+    {
+      id: 'valorTotal',
+      title: 'Total',
+      cellRenderer: ({ data }: any) => {
+        return <FormattedCurrency value={data} />
+      },
+    }
+  ]
+
+  const tableSchemaBillingAddress = [
+    {
+      id: 'deliveryAddressCorpname',
+      title: intl.formatMessage({ id: 'order.deliveryAddress'})
+    },
+    {
+      id: 'billingAddressFormattedAddres',
+      title: intl.formatMessage({ id: 'table.address'})
+    },
+    {
+      id: 'billingAddressCity',
+      title: intl.formatMessage({ id: 'table.city'})
+    },
+    {
+      id: 'billingAddressState',
+      title: intl.formatMessage({ id: 'table.state'})
+    },
+    {
+      id: 'billingAddresszipcode',
+      title: intl.formatMessage({ id: 'table.zipCode'})
+    }
+  ]
+
+  const tableSchemaDeliveryAddress = [
+    {
+      id: 'deliveryAddressCorpname',
+      title: intl.formatMessage({ id: 'order.deliveryAddress'})
+    },
+    {
+      id: 'billingAddressCity',
+      title: intl.formatMessage({ id: 'table.city'})
+    },
+    {
+      id: 'billingAddressState',
+      title: intl.formatMessage({ id: 'table.state'})
+    },
+    {
+      id: 'billingAddresszipcode',
+      title: intl.formatMessage({ id: 'table.zipCode'})
+    },
+  ]
+
+  const tableSchemaOtherInformations = [
+    {
+      id: 'paymentMethod',
+      title: intl.formatMessage({ id: 'table.methodPayment'})
+    },
+    {
+      id: 'paymentOptions',
+      title: intl.formatMessage({ id: 'table.optionPayment'})
+    },
+    {
+      id: 'deliveryMethod',
+      title: intl.formatMessage({ id: 'table.deliveryMethod'})
+    },
+    {
+      id: 'linkTransportadora',
+      title: intl.formatMessage({ id: 'table.carrierLink'})
+    },
+  ]
+
+  const measuresProducts = useTableMeasures({ size: dataPedidos.itens?.length })
+  const measuresOthersInformations = useTableMeasures({ size: itensOthersInformations?.length })
+  const measuresDeliveryAddress = useTableMeasures({ size: itensDeliveryAddress?.length })
+  const measureBillingAddress = useTableMeasures({ size: itensBillingAddress?.length })
 
   async function detailOrders() {
     setisLoading(true)
@@ -83,108 +165,6 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
   useEffect(() => {
     arquivos(), detailOrders()
   }, [])
-
-  // const tableSchema = {
-  //   properties: {
-  //     descricaoDoProduto: {
-  //       title: <FormattedMessage id="table.name" />,
-  //     },
-  //     valorUnitario: {
-  //       title: <FormattedMessage id="table.price" />,
-  //       cellRenderer: ({ rowData }: any) => {
-  //         return <FormattedCurrency value={rowData.valorUnitario} />
-  //       },
-  //     },
-  //     quantidade: {
-  //       title: <FormattedMessage id="table.quantity" />,
-  //     },
-  //     valorTotal: {
-  //       title: 'Total',
-  //       cellRenderer: ({ rowData }: any) => {
-  //         return <FormattedCurrency value={rowData.valorTotal} />
-  //       },
-  //     },
-  //   },
-  // }
-
-  const tableSchema = [
-    {
-      id: 'descricaoDoProduto',
-      title: <FormattedMessage id="table.name" />,
-    },
-    {
-      id: 'valorUnitario',
-      title: <FormattedMessage id="table.price" />,
-      cellRenderer: ({ rowData }: any) => {
-        return <FormattedCurrency value={rowData.valorUnitario} />
-      }
-    },
-    {
-      id: 'quantidade',
-      title: <FormattedMessage id="table.quantity" />,
-    },
-    {
-      id: 'valorTotal',
-      title: 'Total',
-      cellRenderer: ({ rowData }: any) => {
-        return <FormattedCurrency value={rowData.valorTotal} />
-      },
-    }
-  ]
-
-  const tableSchemaBillingAddress = {
-    properties: {
-      deliveryAddressCorpname: {
-        title: <FormattedMessage id="order.deliveryAddress" />,
-      },
-      billingAddressFormattedAddres: {
-        title: <FormattedMessage id="table.address" />,
-      },
-      billingAddressCity: {
-        title: <FormattedMessage id="table.city" />,
-      },
-      billingAddressState: {
-        title: <FormattedMessage id="table.state" />,
-      },
-      billingAddresszipcode: {
-        title: <FormattedMessage id="table.zipCode" />,
-      },
-    },
-  }
-
-  const tableSchemaDeliveryAddress = {
-    properties: {
-      deliveryAddressCorpname: {
-        title: <FormattedMessage id="order.deliveryAddress" />,
-      },
-      billingAddressCity: {
-        title: <FormattedMessage id="table.city" />,
-      },
-      billingAddressState: {
-        title: <FormattedMessage id="table.state" />,
-      },
-      billingAddresszipcode: {
-        title: <FormattedMessage id="table.zipCode" />,
-      },
-    },
-  }
-
-  const tableSchemaOtherInformations = {
-    properties: {
-      paymentMethod: {
-        title: <FormattedMessage id="table.methodPayment" />,
-      },
-      paymentOptions: {
-        title: <FormattedMessage id="table.optionPayment" />,
-      },
-      deliveryMethod: {
-        title: <FormattedMessage id="table.deliveryMethod" />,
-      },
-      linkTransportadora: {
-        title: <FormattedMessage id="table.carrierLink" />,
-      },
-    },
-  }
 
    return (
     <ContentWrapper
@@ -266,11 +246,10 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                       {<FormattedMessage id="order.billingAddress" />}
                     </strong>
                   </p>
-                  <Table
-                    fullWidth
-                    schema={tableSchemaBillingAddress}
+                  <EXPERIMENTAL_Table
+                    measures={measureBillingAddress}
+                    columns={tableSchemaBillingAddress}
                     items={itensBillingAddress}
-                    density="high"
                     loading={isLoading}
                   />
                 </div>
@@ -281,33 +260,27 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                       {<FormattedMessage id="order.deliveryAddress" />}
                     </strong>
                   </p>
-                  <Table
-                    fullWidth
-                    schema={tableSchemaDeliveryAddress}
+                  <EXPERIMENTAL_Table
+                    measures={measuresDeliveryAddress}
+                    columns={tableSchemaDeliveryAddress}
                     items={itensDeliveryAddress}
-                    density="high"
                     loading={isLoading}
                   />
                 </div>
 
                 <div className="fl w-100 pa2">
-                      <p>
-                        <strong className="c-on-base">
-                          {<FormattedMessage id="order.otherInformations" />}
-                        </strong>
-                      </p>
-                      <Table
-                        fullWidth
-                        dynamicRowHeight={true}
-                        fixFirstColumn
-                        // loading
-                        extended
-                        schema={tableSchemaOtherInformations}
-                        items={itensOtherInformations}
-                        density="high"
-                        loading={isLoading}
-                      />
-                    </div>
+                  <p>
+                    <strong className="c-on-base">
+                      {<FormattedMessage id="order.otherInformations" />}
+                    </strong>
+                  </p>
+                  <EXPERIMENTAL_Table
+                    measures={measuresOthersInformations}
+                    columns={tableSchemaOtherInformations}
+                    items={itensOthersInformations}
+                    loading={isLoading}
+                  />
+                </div>
               </div>
             )}
 
@@ -316,14 +289,10 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
             </div>
 
             <div className="overflow-auto mt7 mb7">
-              <Table
-                fullWidth
-                schema={tableSchema}
-                items={itens}
-                // measures={EXPERIMENTAL_useTableMeasures({ size: itens.length })}
-                extended
-                density="high"
-                highlightOnHover
+              <EXPERIMENTAL_Table
+                measures={measuresProducts}
+                columns={tableSchemaProducts}
+                items={dataPedidos.itens}
                 loading={isLoading}
               />
             </div>

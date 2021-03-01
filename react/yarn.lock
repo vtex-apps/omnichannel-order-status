@@ -1312,10 +1312,10 @@
   resolved "https://registry.yarnpkg.com/@vtex/prettier-config/-/prettier-config-0.1.4.tgz#dc7633c5b511e42673830503d88adde7da17f40a"
   integrity sha512-/rNzJ7R7KZmmcrCS3GFbVhfQRKFYFsDvCyO3Mv+atyILi0dkiELLVHUrbeAV/VaCgEMAGgWB9rdCQRasI3Yy/w==
 
-"@vtex/styleguide@^9.118.0":
-  version "9.119.0"
-  resolved "https://registry.yarnpkg.com/@vtex/styleguide/-/styleguide-9.119.0.tgz#6311a7e823538ce650603ead0c38a1971bb7cd26"
-  integrity sha512-pNgE/lgWzwZCougnXgbAWvSgP0KKpiWGw18sYWKy1/GHH6nuP55CIJO56BzjjNJLIBYWTvmimS1SJab4ckl+dA==
+"@vtex/styleguide@^9.135.4":
+  version "9.135.4"
+  resolved "https://registry.yarnpkg.com/@vtex/styleguide/-/styleguide-9.135.4.tgz#8db819a3ec8560e02beb6f2beb61c4e431fd8586"
+  integrity sha512-2xlU0jl2MttAiuw52JEozLrEUbgB7XHgwQGDZJRTHPAqx86Kw7adbhpujSSQvHKJhvU0RokGTcgmSDBnaqP3Fg==
   dependencies:
     autoprefixer "^9.6.1"
     case-sensitive-paths-webpack-plugin "^2.2.0"
@@ -6386,9 +6386,9 @@ vtex-tachyons@^3.2.0:
   version "8.94.0"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.94.0/public/@types/vtex.render-runtime#e79eb9a66801476b66e7ed354a83a7ff1f1c72c7"
 
-"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.8/public/@types/vtex.styleguide":
-  version "9.112.8"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.8/public/@types/vtex.styleguide#3a75bf37150dd13762664e6ae15924ca4f48317c"
+"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.135.4/public/@types/vtex.styleguide":
+  version "9.135.4"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.135.4/public/@types/vtex.styleguide#f2143f2cbf61b3b01851be37e188b84edc65eb9a"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"
