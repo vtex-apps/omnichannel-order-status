@@ -43,3 +43,26 @@
   width: 130px;
   text-align: center;
 }
+
+@media (max-width: 768px){
+  .progress-bar{
+    max-width: initial;
+    height: initial;
+    background-color: initial;
+    flex-direction: column;
+    margin: 40px 0 20px 0;
+  }
+
+  .progress{
+    display: none;
+  }
+
+  .milestone label {
+    top: 27px;
+  }
+
+  .isMobile{
+    height: 75px;
+  }
+
+}

@@ -11,40 +11,40 @@ import { Link, Alert, EXPERIMENTAL_Table } from 'vtex.styleguide'
 import './style.global.css'
 
 const OrderDatails: FunctionComponent<Props> = ({ match }) => {
-  const [dataPedidos, setDataPedido] = useState<any | undefined>([])
-  const [dataArquivos, setDataArquivos] = useState<any | undefined>([])
+  const [dataOrder, setDataOrder] = useState<any | undefined>([])
+  const [dataFiles, setDataFile] = useState<any | undefined>([])
 
   const [isLoading, setisLoading] = useState<boolean | false>(false)
   const [isErrorDataOrder, setIsErrorDataOrder] = useState<boolean | false>(false)
   const [isErrorDataFile, setIsErrorDataFile] = useState<boolean | false>(false)
   const intl = useIntl()
-  const idPedido = match.params.order.toString()
+  const idOrder = match.params.order.toString()
 
   const itensOthersInformations = [
     {
-    paymentMethod: dataPedidos.paymentMethod,
-    paymentOptions: dataPedidos.paymentOptions,
-    deliveryMethod: dataPedidos.deliveryMethod,
-    linkTransportadora: dataPedidos.linkTransportadora
+    paymentMethod: dataOrder.paymentMethod,
+    paymentOptions: dataOrder.paymentOptions,
+    deliveryMethod: dataOrder.deliveryMethod,
+    linkTransportadora: dataOrder.linkTransportadora
     }
   ]
 
   const itensDeliveryAddress = [
     {
-      deliveryAddressCorpname: dataPedidos.deliveryAddressCorpname,
-      billingAddressCity: dataPedidos.billingAddressCity,
-      billingAddressState: dataPedidos.billingAddressState,
-      billingAddresszipcode: dataPedidos.billingAddresszipcode
+      deliveryAddressCorpname: dataOrder.deliveryAddressCorpname,
+      billingAddressCity: dataOrder.billingAddressCity,
+      billingAddressState: dataOrder.billingAddressState,
+      billingAddresszipcode: dataOrder.billingAddresszipcode
     }
   ]
 
   const itensBillingAddress = [
     {
-      deliveryAddressCorpname: dataPedidos.deliveryAddressCorpname,
-      billingAddressFormattedAddres: dataPedidos.billingAddressFormattedAddres,
-      billingAddressCity: dataPedidos.billingAddressCity,
-      billingAddressState: dataPedidos.billingAddressState,
-      billingAddresszipcode: dataPedidos.billingAddresszipcode
+      deliveryAddressCorpname: dataOrder.deliveryAddressCorpname,
+      billingAddressFormattedAddres: dataOrder.billingAddressFormattedAddres,
+      billingAddressCity: dataOrder.billingAddressCity,
+      billingAddressState: dataOrder.billingAddressState,
+      billingAddresszipcode: dataOrder.billingAddresszipcode
     }
   ]
 
@@ -134,7 +134,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
     },
   ]
 
-  const measuresProducts = useTableMeasures({ size: dataPedidos.itens?.length })
+  const measuresProducts = useTableMeasures({ size: dataOrder.itens?.length })
   const measuresOthersInformations = useTableMeasures({ size: itensOthersInformations?.length })
   const measuresDeliveryAddress = useTableMeasures({ size: itensDeliveryAddress?.length })
   const measureBillingAddress = useTableMeasures({ size: itensBillingAddress?.length })
@@ -142,8 +142,8 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
   async function detailOrders() {
     setisLoading(true)
     try {
-      const results = await ApiB2B.get('ordersb2b/' + idPedido)
-      setDataPedido(results.data)
+      const results = await ApiB2B.get('ordersb2b/' + idOrder)
+      setDataOrder(results.data)
     } catch (err) {
       setIsErrorDataOrder(true)
       console.warn('Pedido', err)
@@ -152,10 +152,10 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
     }
   }
 
-  async function arquivos() {
+  async function getFiles() {
     try {
-      const resultado = await ApiB2B.get('ordersb2b/files/' + idPedido)
-      setDataArquivos(resultado.data)
+      const result = await ApiB2B.get('ordersb2b/files/' + idOrder)
+      setDataFile(result.data)
     } catch (err) {
       setIsErrorDataFile(true)
       console.warn('Arquivos do pedido', err)
@@ -163,7 +163,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
   }
 
   useEffect(() => {
-    arquivos(), detailOrders()
+    getFiles(), detailOrders()
   }, [])
 
    return (
@@ -191,7 +191,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                     {<FormattedMessage id="label.numberOrderWeb" />}
                   </td>
                   <td className="pv3 pr3 bb tr b--black-20">
-                    {dataPedidos.pedidoErpId}
+                    {dataOrder.pedidoErpId}
                   </td>
                 </tr>
                 <tr>
@@ -199,9 +199,9 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                     {<FormattedMessage id="table.orderDate" />}
                   </td>
                   <td className="pv3 pr3 bb tr b--black-20">
-                    {dataPedidos.dataPedido
-                      ? format(new Date(dataPedidos.dataPedido), 'dd/MM/yyyy')
-                      : dataPedidos.dataPedido}
+                    {dataOrder.dataPedido
+                      ? format(new Date(dataOrder.dataPedido), 'dd/MM/yyyy')
+                      : dataOrder.dataPedido}
                   </td>
                 </tr>
                 <tr>
@@ -209,7 +209,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                     {<FormattedMessage id="table.name" />}
                   </td>
                   <td className="pv3 pr3 bb tr b--black-20">
-                    {dataPedidos.clienteFinalNome}
+                    {dataOrder.clienteFinalNome}
                   </td>
                 </tr>
                 <tr>
@@ -217,8 +217,8 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                     CPF/CNPJ
                   </td>
                   <td className="pv3 pr3 bb tr b--black-20">
-                    {dataPedidos.clienteFinalCpf}
-                    {dataPedidos.clienteFinalCnpj}
+                    {dataOrder.clienteFinalCpf}
+                    {dataOrder.clienteFinalCnpj}
                   </td>
                 </tr>
               </tbody>
@@ -229,7 +229,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
             </div>
 
             <div>
-              <OrderTracking status={dataPedidos.status} />
+              <OrderTracking status={dataOrder.status} />
             </div>
 
             {isErrorDataOrder ? (
@@ -240,7 +240,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
               </div>
             ) : (
               <div>
-                <div className="fl w-100 pa2">
+                <div className="w-100 pa2">
                   <p>
                     <strong className="c-on-base">
                       {<FormattedMessage id="order.billingAddress" />}
@@ -254,7 +254,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                   />
                 </div>
 
-                <div className="fl w-100 pa2">
+                <div className="w-100 pa2">
                   <p>
                     <strong className="c-on-base">
                       {<FormattedMessage id="order.deliveryAddress" />}
@@ -268,7 +268,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                   />
                 </div>
 
-                <div className="fl w-100 pa2">
+                <div className="w-100 pa2">
                   <p>
                     <strong className="c-on-base">
                       {<FormattedMessage id="order.otherInformations" />}
@@ -292,7 +292,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
               <EXPERIMENTAL_Table
                 measures={measuresProducts}
                 columns={tableSchemaProducts}
-                items={dataPedidos.itens}
+                items={dataOrder.itens}
                 loading={isLoading}
               />
             </div>
@@ -309,8 +309,8 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                       <td className="pv3 pr3 bb tr b--black-10">
                         <FormattedCurrency
                           value={
-                            dataPedidos.valorTotalPedido -
-                            dataPedidos.valorFrete
+                            dataOrder.valorTotalPedido -
+                            dataOrder.valorFrete
                           }
                         />
                       </td>
@@ -320,7 +320,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                         {<FormattedMessage id="table.freight" />}:
                       </td>
                       <td className="pv3 pr3 bb tr b--black-10">
-                        <FormattedCurrency value={dataPedidos.valorFrete} />
+                        <FormattedCurrency value={dataOrder.valorFrete} />
                       </td>
                     </tr>
                     <tr>
@@ -329,7 +329,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                       </td>
                       <td className="pv3 pr3 bb tr b--black-10">
                         <FormattedCurrency
-                          value={dataPedidos.valorTotalPedido}
+                          value={dataOrder.valorTotalPedido}
                         />
                       </td>
                     </tr>
@@ -351,7 +351,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
               </div>
             ) : (
             <ul className="pa0 ma0">
-              {dataArquivos.itens?.map((item: any, index: number) => (
+              {dataFiles.itens?.map((item: any, index: number) => (
                 <li key={index} className="pa3 dib">
                   <Link href={item.url} target="_blank">
                     {item.descricao}
