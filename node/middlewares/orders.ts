@@ -1,6 +1,6 @@
 import { json } from 'co-body'
 
-export async function ordersMiddeware(ctx: Context, next: () => Promise<any>) {
+export async function ordersMiddleware(ctx: Context, next: () => Promise<any>) {
   const {
     state: { order },
     clients: { orders: statusClient },
@@ -34,7 +34,7 @@ export async function ordersMiddeware(ctx: Context, next: () => Promise<any>) {
   await next()
 }
 
-export async function ordersFilesMiddeware(
+export async function ordersFilesMiddleware(
   ctx: Context,
   next: () => Promise<any>
 ) {
@@ -71,7 +71,7 @@ export async function ordersFilesMiddeware(
   await next()
 }
 
-export async function ordersPeriodMiddeware(
+export async function ordersPeriodMiddleware(
   ctx: Context,
   next: () => Promise<any>
 ) {

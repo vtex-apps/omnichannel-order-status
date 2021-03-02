@@ -2,9 +2,9 @@ import { ClientsConfig, Service, ServiceContext } from '@vtex/api'
 
 import { Clients } from './clients'
 import {
-  ordersMiddeware,
-  ordersFilesMiddeware,
-  ordersPeriodMiddeware,
+  ordersMiddleware,
+  ordersFilesMiddleware,
+  ordersPeriodMiddleware,
 } from './middlewares/orders'
 
 import { orderValidationMiddleware } from './middlewares/oderValidation'
@@ -33,8 +33,8 @@ export default new Service<Clients, State>({
   clients,
   routes: {
     // `status` is the route ID from service.json. It maps to an array of middlewares (or a single handler).
-    ordersb2b: [orderValidationMiddleware, ordersMiddeware],
-    ordersFiles: [ordersFilesMiddeware],
-    ordersDate: [ordersPeriodMiddeware],
+    ordersb2b: [orderValidationMiddleware, ordersMiddleware],
+    ordersFiles: [orderValidationMiddleware, ordersFilesMiddleware],
+    ordersDate: [ordersPeriodMiddleware],
   },
 })
