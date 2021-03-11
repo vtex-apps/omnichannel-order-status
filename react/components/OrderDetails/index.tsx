@@ -5,68 +5,106 @@ import OrderTracking from './orderTracking'
 
 import { FormattedMessage } from 'react-intl'
 import { FormattedCurrency } from 'vtex.format-currency'
-
 import { format } from 'date-fns'
+import { Link, Alert, Spinner, EXPERIMENTAL_Table } from 'vtex.styleguide'
+ import  useTableMeasures  from '@vtex/styleguide/lib/EXPERIMENTAL_Table/hooks/useTableMeasures'
+import './style.global.css'
 
-import { Link, Table } from 'vtex.styleguide'
+
+import {
+  tableSchemaProducts,
+tableSchemaBillingAddress,
+tableSchemaDeliveryAddress,
+tableSchemaOtherInformations
+} from "./tableStructure"
 
 const OrderDatails: FunctionComponent<Props> = ({ match }) => {
-  const [dataPedidos, setDataPedido] = useState<any | undefined>([])
-  const [dataArquivos, setDataArquivos] = useState<any | undefined>([])
+  const [dataOrder, setDataOrder] = useState<any | undefined>([])
+  const [dataFiles, setDataFile] = useState<any | undefined>([])
 
-  const idPedido = match.params.order.toString()
+  const [isLoading, setisLoading] = useState<boolean | false>(false)
+  const [isErrorDataOrder, setIsErrorDataOrder] = useState<boolean | false>(false)
+  const [isErrorDataFile, setIsErrorDataFile] = useState<boolean | false>(false)
 
-  const itens = dataPedidos.itens
+  const idOrder = match.params.order.toString()
+
+  const itensOthersInformations = [
+    {
+    paymentMethod: dataOrder.paymentMethod,
+    paymentOptions: dataOrder.paymentOptions,
+    deliveryMethod: dataOrder.deliveryMethod,
+    linkTransportadora: dataOrder.linkTransportadora
+    }
+  ]
+
+  const itensDeliveryAddress = [
+    {
+      deliveryAddressCorpname: dataOrder.deliveryAddressCorpname,
+      billingAddressCity: dataOrder.billingAddressCity,
+      billingAddressState: dataOrder.billingAddressState,
+      billingAddresszipcode: dataOrder.billingAddresszipcode
+    }
+  ]
+
+  const itensBillingAddress = [
+    {
+      deliveryAddressCorpname: dataOrder.deliveryAddressCorpname,
+      billingAddressFormattedAddres: dataOrder.billingAddressFormattedAddres,
+      billingAddressCity: dataOrder.billingAddressCity,
+      billingAddressState: dataOrder.billingAddressState,
+      billingAddresszipcode: dataOrder.billingAddresszipcode
+    }
+  ]
+
+  const measuresProducts = useTableMeasures({ size: dataOrder.itens?.length })
+  const measuresOthersInformations = useTableMeasures({ size: itensOthersInformations?.length })
+  const measuresDeliveryAddress = useTableMeasures({ size: itensDeliveryAddress?.length })
+  const measureBillingAddress = useTableMeasures({ size: itensBillingAddress?.length })
 
   async function detailOrders() {
+    setisLoading(true)
     try {
-      const results = await ApiB2B.get('ordersb2b/' + idPedido)
-      setDataPedido(results.data)
+      const results = await ApiB2B.get('ordersb2b/' + idOrder)
+      setDataOrder(results.data)
     } catch (err) {
+      setIsErrorDataOrder(true)
       console.warn('Pedido', err)
+    } finally {
+      setisLoading(false)
     }
   }
 
-  async function arquivos() {
+  async function getFiles() {
     try {
-      const resultado = await ApiB2B.get('ordersb2b/files/' + idPedido)
-      setDataArquivos(resultado.data)
+      const result = await ApiB2B.get('ordersb2b/files/' + idOrder)
+      setDataFile(result.data)
     } catch (err) {
+      setIsErrorDataFile(true)
       console.warn('Arquivos do pedido', err)
     }
   }
 
   useEffect(() => {
-    arquivos(), detailOrders()
+    getFiles(), detailOrders()
   }, [])
 
-  const tableSchema = {
-    properties: {
-      descricaoDoProduto: {
-        title: <FormattedMessage id="table.name" />,
-      },
-      valorUnitario: {
-        title: <FormattedMessage id="table.price" />,
-        cellRenderer: ({ rowData }: any) => {
-          return <FormattedCurrency value={rowData.valorUnitario} />
-        },
-      },
-      quantidade: {
-        title: <FormattedMessage id="table.quantity" />,
-      },
-      valorTotal: {
-        title: 'Total',
-        cellRenderer: ({ rowData }: any) => {
-          return <FormattedCurrency value={rowData.valorTotal} />
-        },
-      },
-    },
-  }
-
-  return (
-    <ContentWrapper titleId="titleOrderDetails" namespace="custom-page">
+   return (
+    <ContentWrapper
+      titleId="titleOrderDetails"
+      namespace="custom-page"
+      backButton={{
+        title: "return",
+        titleId: "titleOrderDetails",
+        path: "/b2b-order"
+      }
+    }>
       {() => (
         <div>
+          {isErrorDataOrder && (
+            <Alert type="error" onClose={() => console.log('Closed!')}>
+              <FormattedMessage id="message.error" />
+            </Alert>
+          )}
           <div className="vtex_orders-detail c-on-base">
             <table className="f6 w-100 mw8">
               <tbody className="lh-copy">
@@ -75,7 +113,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                     {<FormattedMessage id="label.numberOrderWeb" />}
                   </td>
                   <td className="pv3 pr3 bb tr b--black-20">
-                    {dataPedidos.pedidoErpId}
+                    {dataOrder.pedidoErpId}
                   </td>
                 </tr>
                 <tr>
@@ -83,9 +121,9 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                     {<FormattedMessage id="table.orderDate" />}
                   </td>
                   <td className="pv3 pr3 bb tr b--black-20">
-                    {dataPedidos.dataPedido
-                      ? format(new Date(dataPedidos.dataPedido), 'dd/MM/yyyy')
-                      : dataPedidos.dataPedido}
+                    {dataOrder.dataPedido
+                      ? format(new Date(dataOrder.dataPedido), 'dd/MM/yyyy')
+                      : dataOrder.dataPedido}
                   </td>
                 </tr>
                 <tr>
@@ -93,7 +131,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                     {<FormattedMessage id="table.name" />}
                   </td>
                   <td className="pv3 pr3 bb tr b--black-20">
-                    {dataPedidos.clienteFinalNome}
+                    {dataOrder.clienteFinalNome}
                   </td>
                 </tr>
                 <tr>
@@ -101,8 +139,8 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                     CPF/CNPJ
                   </td>
                   <td className="pv3 pr3 bb tr b--black-20">
-                    {dataPedidos.clienteFinalCpf}
-                    {dataPedidos.clienteFinalCnpj}
+                    {dataOrder.clienteFinalCpf}
+                    {dataOrder.clienteFinalCnpj}
                   </td>
                 </tr>
               </tbody>
@@ -112,157 +150,96 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
               {<FormattedMessage id="order.tracking" />}
             </div>
 
-            <div className="mw9 center tc ph3-ns bg-black-10 ic__tracking">
-              <OrderTracking status={dataPedidos.status} />
+            <div>
+              <OrderTracking status={dataOrder.status} />
             </div>
 
-            <div className="flex justify-center con__address">
-              <div className="mw9 center ph3-ns">
-                <div className="cf ph2-ns">
-                  <div className="fl w-100 w-third-ns pa2">
-                    <p>
-                      <strong className="c-on-base">
-                        {<FormattedMessage id="order.billingAddress" />}
-                      </strong>
-                    </p>
-
-                    <table className="f6 w-100 mw8 ba b--black-10">
-                      <tbody className="lh-copy">
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {dataPedidos.billingAddressCorpname}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.address" />}:
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.billingAddressFormattedAddres}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {dataPedidos.billingAddressCity}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.billingAddressState}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className=" pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.zipCode" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.billingAddresszipcode}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <div className="fl w-100 w-third-ns pa2">
-                    <p>
-                      <strong className="c-on-base">
-                        {<FormattedMessage id="order.deliveryAddress" />}
-                      </strong>
-                    </p>
-
-                    <table className="f6 w-100 mw8 ba b--black-10">
-                      <tbody className="lh-copy">
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {dataPedidos.deliveryAddressCorpname}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.address" />}:
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.deliveryAddressFormattedAddres}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {dataPedidos.deliveryAddressCity}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.deliveryAddressState}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className=" pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.zipCode" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.deliveryAddresszipcode}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="fl w-100 w-third-ns pa2">
-                    <p>
-                      <strong className="c-on-base">
-                        {<FormattedMessage id="order.otherInformations" />}
-                      </strong>
-                    </p>
-
-                    <table className="f6 w-100 mw8 ba b--black-10">
-                      <tbody className="lh-copy">
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.methodPayment" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.paymentMethod}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.optionPayment" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.paymentOptions}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.deliveryMethod" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.deliveryMethod}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="pv3 pr3 bb tl b--black-10">
-                            {<FormattedMessage id="table.carrierLink" />}
-                          </td>
-                          <td className="pv3 pr3 bb tr b--black-10">
-                            {dataPedidos.linkTransportadora}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+            {isErrorDataOrder ? (
+              <div className="flex items-center h-100 c-muted-2 pa7-l">
+                <div className="w-80 w-60-l center tc">
+                  <span className="t-heading-4 mt0">Nothing to show.</span>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div>
+                <div className="w-100 pa2">
+                  <p>
+                    <strong className="c-on-base">
+                      {<FormattedMessage id="order.billingAddress" />}
+                    </strong>
+                  </p>
+                  {isLoading ? (
+                    <div className="tc">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <EXPERIMENTAL_Table
+                      measures={measureBillingAddress}
+                      columns={tableSchemaBillingAddress}
+                      items={itensBillingAddress}
+                    />
+                  )}
+                </div>
+
+                <div className="w-100 pa2">
+                  <p>
+                    <strong className="c-on-base">
+                      {<FormattedMessage id="order.deliveryAddress" />}
+                    </strong>
+                  </p>
+                  {isLoading ? (
+                    <div className="tc">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <EXPERIMENTAL_Table
+                      measures={measuresDeliveryAddress}
+                      columns={tableSchemaDeliveryAddress}
+                      items={itensDeliveryAddress}
+                    />
+                  )}
+                </div>
+
+                <div className="w-100 pa2">
+                  <p>
+                    <strong className="c-on-base">
+                      {<FormattedMessage id="order.otherInformations" />}
+                    </strong>
+                  </p>
+                  {isLoading ? (
+                    <div className="tc">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <EXPERIMENTAL_Table
+                      measures={measuresOthersInformations}
+                      columns={tableSchemaOtherInformations}
+                      items={itensOthersInformations}
+                    />
+                  )}
+                </div>
+              </div>
+            )}
 
             <div className="t-heading-4 mt6 mb5">
               {<FormattedMessage id="order.purchaseData" />}
             </div>
 
             <div className="overflow-auto mt7 mb7">
-              <Table
-                fullWidth
-                schema={tableSchema}
-                items={itens}
-                density="high"
+            {isLoading ? (
+              <div className="tc">
+                <Spinner />
+              </div>
+            ) : (
+              <EXPERIMENTAL_Table
+                measures={measuresProducts}
+                columns={tableSchemaProducts}
+                items={dataOrder.itens}
               />
+            )}
             </div>
 
+            {!isErrorDataOrder && (
             <div className="order_-summary tr">
               <div className="w-100 mw6 dib">
                 <table className="f6 w-100 ba b--black-10">
@@ -274,8 +251,8 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                       <td className="pv3 pr3 bb tr b--black-10">
                         <FormattedCurrency
                           value={
-                            dataPedidos.valorTotalPedido -
-                            dataPedidos.valorFrete
+                            dataOrder.valorTotalPedido -
+                            dataOrder.valorFrete
                           }
                         />
                       </td>
@@ -285,7 +262,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                         {<FormattedMessage id="table.freight" />}:
                       </td>
                       <td className="pv3 pr3 bb tr b--black-10">
-                        <FormattedCurrency value={dataPedidos.valorFrete} />
+                        <FormattedCurrency value={dataOrder.valorFrete} />
                       </td>
                     </tr>
                     <tr>
@@ -294,7 +271,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                       </td>
                       <td className="pv3 pr3 bb tr b--black-10">
                         <FormattedCurrency
-                          value={dataPedidos.valorTotalPedido}
+                          value={dataOrder.valorTotalPedido}
                         />
                       </td>
                     </tr>
@@ -302,13 +279,21 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                 </table>
               </div>
             </div>
+            )}
 
             <div className="t-heading-4 mt6 mb5">
               {<FormattedMessage id="title.serviceTax" />}
             </div>
 
+            {isErrorDataFile ? (
+              <div className="flex items-center h-100 c-muted-2 pa7-l">
+                <div className="w-80 w-60-l center tc">
+                  <span className="t-heading-4 mt0">Nothing to show.</span>
+                </div>
+              </div>
+            ) : (
             <ul className="pa0 ma0">
-              {dataArquivos.itens?.map((item: any, index: number) => (
+              {dataFiles.itens?.map((item: any, index: number) => (
                 <li key={index} className="pa3 dib">
                   <Link href={item.url} target="_blank">
                     {item.descricao}
@@ -316,6 +301,7 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                 </li>
               ))}
             </ul>
+            )}
           </div>
         </div>
       )}

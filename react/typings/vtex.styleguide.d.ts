@@ -12,6 +12,7 @@ declare module 'vtex.styleguide' {
   export const Alert: ComponentType<any>
   export const Button: ComponentType<any>
   export const Table: ComponentType<any>
+  export const EXPERIMENTAL_Table: ComponentType<any>
   export const Link: ComponentType<any>
   export const ArrowDown: ComponentType<any>
   export const ArrowUp: ComponentType<any>
