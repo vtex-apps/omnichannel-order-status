@@ -6,7 +6,7 @@ import OrderTracking from './orderTracking'
 import { FormattedMessage } from 'react-intl'
 import { FormattedCurrency } from 'vtex.format-currency'
 import { format } from 'date-fns'
-import { Link, Alert, EXPERIMENTAL_Table } from 'vtex.styleguide'
+import { Link, Alert, Spinner, EXPERIMENTAL_Table } from 'vtex.styleguide'
  import  useTableMeasures  from '@vtex/styleguide/lib/EXPERIMENTAL_Table/hooks/useTableMeasures'
 import './style.global.css'
 
@@ -168,12 +168,17 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                       {<FormattedMessage id="order.billingAddress" />}
                     </strong>
                   </p>
-                  <EXPERIMENTAL_Table
-                    measures={measureBillingAddress}
-                    columns={tableSchemaBillingAddress}
-                    items={itensBillingAddress}
-                    loading={isLoading}
-                  />
+                  {isLoading ? (
+                    <div className="tc">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <EXPERIMENTAL_Table
+                      measures={measureBillingAddress}
+                      columns={tableSchemaBillingAddress}
+                      items={itensBillingAddress}
+                    />
+                  )}
                 </div>
 
                 <div className="w-100 pa2">
@@ -182,12 +187,17 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                       {<FormattedMessage id="order.deliveryAddress" />}
                     </strong>
                   </p>
-                  <EXPERIMENTAL_Table
-                    measures={measuresDeliveryAddress}
-                    columns={tableSchemaDeliveryAddress}
-                    items={itensDeliveryAddress}
-                    loading={isLoading}
-                  />
+                  {isLoading ? (
+                    <div className="tc">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <EXPERIMENTAL_Table
+                      measures={measuresDeliveryAddress}
+                      columns={tableSchemaDeliveryAddress}
+                      items={itensDeliveryAddress}
+                    />
+                  )}
                 </div>
 
                 <div className="w-100 pa2">
@@ -196,12 +206,17 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
                       {<FormattedMessage id="order.otherInformations" />}
                     </strong>
                   </p>
-                  <EXPERIMENTAL_Table
-                    measures={measuresOthersInformations}
-                    columns={tableSchemaOtherInformations}
-                    items={itensOthersInformations}
-                    loading={isLoading}
-                  />
+                  {isLoading ? (
+                    <div className="tc">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <EXPERIMENTAL_Table
+                      measures={measuresOthersInformations}
+                      columns={tableSchemaOtherInformations}
+                      items={itensOthersInformations}
+                    />
+                  )}
                 </div>
               </div>
             )}
@@ -211,12 +226,17 @@ const OrderDatails: FunctionComponent<Props> = ({ match }) => {
             </div>
 
             <div className="overflow-auto mt7 mb7">
+            {isLoading ? (
+              <div className="tc">
+                <Spinner />
+              </div>
+            ) : (
               <EXPERIMENTAL_Table
                 measures={measuresProducts}
                 columns={tableSchemaProducts}
                 items={dataOrder.itens}
-                loading={isLoading}
               />
+            )}
             </div>
 
             {!isErrorDataOrder && (
